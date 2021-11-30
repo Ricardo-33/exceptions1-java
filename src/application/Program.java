@@ -12,9 +12,9 @@ public class Program {
 	public static void main(String[] args) throws ParseException {
 		
 		int number;
+		String error;
 		Date checkIn;
 		Date checkOut;
-		Date now;
 		Reservation reservation;
 		
 		Scanner sc = new Scanner(System.in);
@@ -41,17 +41,13 @@ public class Program {
 			System.out.print("Check-out date (dd/MM/yyyy): ");
 			checkOut = sdf.parse(sc.next());
 			
-			now = new Date();
-			if(checkIn.before(now) || checkOut.before(now)) {
-				System.out.println("Error in reservation: Reservation dates for update must be future dates");
-			}
-			else if(!checkOut.after(checkIn)) {
-				System.out.println("Error in reservation: Check-out date must be after check-in date");
+			error = reservation.updateDates(checkIn, checkOut);
+			if (error != null) {
+				System.out.println(error);
 			}
 			else {
-				reservation.updateDates(checkIn, checkOut);
-				System.out.println(reservation);		
-			}	
+				System.out.println(reservation);							
+			}
 		}		
 		sc.close();
 	}
